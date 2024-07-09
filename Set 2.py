@@ -52,19 +52,18 @@ def vigenere_cipher(message, key):
 
     return result
 
-def vigenere_cipher(message, key):
+def scytale_cipher(message, shift):
 
-    clean_message = message.upper()
-    clean_key = key.upper()
-    
-    adjusted_key = clean_key * ((len(clean_message)//len(clean_key)) + 1)
-    final_key = adjusted_key[0:len(clean_message)]
+    if len(message) % shift == 0:
+        clean_message = message
+    else:
+        clean_message = message + "_" * (shift - len(message) % shift)
 
-    expanded_message = [ord(element) for element in clean_message]
-    expanded_key = [ord(element) for element in final_key]
-    shifted_numbers = [32 if expanded_message[i] == 32 else ((expanded_message[i] + expanded_key[i] - 65 - 65) % 26) + 65 for i in range(len(expanded_message))]
-    shifted_message = [chr(shifted_numbers[i]) for i in range(len(shifted_numbers))]
-    result = ''.join(shifted_message)
+    result = ""
+
+    for i in range(len(clean_message)):
+        ciphered = clean_message[(i // shift) + (len(clean_message) // shift) * (i % shift)]
+        result += ciphered
 
     return result
 
